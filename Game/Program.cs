@@ -4,12 +4,12 @@
 Console.WriteLine("--- KI Jumper Training ---");
 
 const int populationSize = 10;
-int generations = 1000;
+const int generations = 200;
 
-List<SimpleNetwork> population = new List<SimpleNetwork>();
-for (int i = 0; i < populationSize; i++)
+var population = new List<SimpleNetwork>();
+for (var i = 0; i < populationSize; i++)
 {
-    population.Add(new SimpleNetwork([3, 32,32, 1]));}
+    population.Add(new SimpleNetwork([2, 32,32, 1]));}
 
 for (int gen = 0; gen < generations; gen++)
 {
@@ -20,7 +20,7 @@ for (int gen = 0; gen < generations; gen++)
 
     Console.WriteLine($"Gen {gen}: Beste Fitness = {results[0].Fitness:F0}");
 
-    SimpleNetwork champion = results[0].Network;
+    var champion = results[0].Network;
 
     List<SimpleNetwork> nextGen = new List<SimpleNetwork>();
     nextGen.Add(champion);
@@ -58,7 +58,7 @@ void PlayVisual(SimpleNetwork net)
 
         var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed]);
         bool wantToJump = output[0] > 0.5;
-        
+        Console.WriteLine($"\nScore: {game.Score} | Input-Wert: {output[0]:F4} | Drückt: {(wantToJump ? "JUMP!" : "     ")}");
         game.Update(wantToJump);
 
         char[] line = new string('_', 25).ToCharArray();
