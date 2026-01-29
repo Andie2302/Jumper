@@ -1,3 +1,5 @@
+namespace Jumper;
+
 public class ReluFunction : IActivationFunction
 {
     public double Activate(double x) => Math.Max(0, x);
