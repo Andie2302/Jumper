@@ -1,6 +1,6 @@
 namespace Jumper;
 
-public class EvolutionManager
+public static class EvolutionManager
 {
     public static double Evaluate(SimpleNetwork net)
     {
