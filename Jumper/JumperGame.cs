@@ -17,22 +17,31 @@ public class JumperGame
     {
         if (IsDead) return;
 
-        if (wantToJump && PlayerY <= 0.01) _jumpVelocity = 0.12;
-        
+        // Sprung-Logik
+        if (wantToJump && PlayerY <= 0.01) _jumpVelocity = 0.8;
+    
         PlayerY += _jumpVelocity;
-        _jumpVelocity -= 0.008;
+        _jumpVelocity -= 0.12;
 
         if (PlayerY < 0) { PlayerY = 0; _jumpVelocity = 0; }
 
+        // Kollision VOR dem Bewegen berechnen
+        double oldX = ObstacleX;
         ObstacleX -= Speed;
 
-        if (ObstacleX < 0.1 && ObstacleX > 0.0 && PlayerY < 0.2) IsDead = true;
+        // Prüfen, ob der Block den kritischen Bereich (0.1 bis 0.0) gekreuzt hat
+        bool blockPassedPlayer = oldX >= 0.1 && ObstacleX <= 0.0;
 
-        if (ObstacleX < -0.1) 
-        { 
+        if (blockPassedPlayer && PlayerY < 0.2) 
+        {
+            IsDead = true;
+        }
+        else if (ObstacleX < -0.1) 
+        {
             ObstacleX = 1.0; 
             Score++;
-            Speed = 0.02 + (_rng.NextDouble() * 0.03);
+            // Deine neue Speed-Range
+            Speed = 0.01 + (_rng.NextDouble() * 0.09); 
         }
     }
 }
