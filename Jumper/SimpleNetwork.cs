@@ -1,5 +1,7 @@
 using SimpleNeuronTest.basic;
 
+namespace Jumper;
+
 public class SimpleNetwork
 {
     private readonly Layer[] _layers;
