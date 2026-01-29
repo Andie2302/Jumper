@@ -18,7 +18,7 @@ public class Layer
         var outputs = new double[Neurons.Length];
         for (var i = 0; i < Neurons.Length; i++)
         {
-            double sum = Neurons[i].CalculateSum(inputs);
+            var sum = Neurons[i].CalculateSum(inputs);
             outputs[i] = _activation.Activate(sum);
             Neurons[i].LastOutput = outputs[i];
         }
