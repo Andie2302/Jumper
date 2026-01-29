@@ -59,7 +59,7 @@ return;
 
 void PlayVisual(SimpleNetwork net)
 {
-    var game = new JumperGame(); // Nutzt die Logik aus JumperGame.cs
+    var game = new JumperGame();
     Console.CursorVisible = false;
 
     while (!game.IsDead)
