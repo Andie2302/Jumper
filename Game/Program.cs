@@ -56,7 +56,12 @@ void PlayVisual(SimpleNetwork net)
     {
         Console.Clear();
 
-        var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed / 0.5]);        bool wantToJump = output[0] > 0.5;
+        var output = net.Predict([
+            game.ObstacleX, 
+            game.PlayerY / 3.0, game.Speed / 0.5
+        ]);       
+        
+        bool wantToJump = output[0] > 0.5;
         Console.WriteLine($"\nScore: {game.Score} | Input-Wert: {output[0]:F4} | Drückt: {(wantToJump ? "JUMP!" : "     ")}");
         game.Update(wantToJump);
 
