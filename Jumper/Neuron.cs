@@ -11,7 +11,7 @@ public class Neuron
         Weights = new double[inputCount];
         for (var i = 0; i < inputCount; i++)
             Weights[i] = rng.NextDouble() * 2 - 1;
-        Bias = rng.NextDouble() * 2 - 1;
+        Bias = 0; //ng.NextDouble() * 2 - 1;
     }
 
     public double CalculateSum(double[] inputs)
