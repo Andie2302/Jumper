@@ -11,8 +11,7 @@ List<SimpleNetwork> population = new List<SimpleNetwork>();
 for (int i = 0; i < populationSize; i++)
 {
     // Topology: 2 Inputs (ObstacleX, PlayerY), 16 Hidden, 1 Output (Jump)
-    population.Add(new SimpleNetwork([2, 32,32,32, 1]));
-}
+    population.Add(new SimpleNetwork([3, 32, 32, 32, 1]));}
 
 for (int gen = 0; gen < generations; gen++)
 {
