@@ -14,7 +14,6 @@ public class SimpleNetwork
 
         for (var i = 0; i < _layers.Length; i++)
         {
-            // Architektur: Letzter Layer = Sigmoid, Hidden Layers = ReLU
             IActivationFunction func = (i == _layers.Length - 1) 
                 ? new SigmoidFunction() 
                 : new ReluFunction();
@@ -23,7 +22,6 @@ public class SimpleNetwork
         }
     }
 
-    // Diese Methode hat im Build gefehlt:
     public double[] Predict(double[] inputs)
     {
         var currentSignals = inputs;
@@ -36,10 +34,8 @@ public class SimpleNetwork
 
     public void Train(double[] inputs, double[] targets, double learningRate)
     {
-        // 1. Forward Pass (notwendig, um LastOutput in den Neuronen zu setzen)
         var actual = Predict(inputs);
 
-        // 2. Backward Pass
         var currentErrorSignals = new double[targets.Length];
         for (var i = 0; i < targets.Length; i++)
         {
@@ -52,7 +48,6 @@ public class SimpleNetwork
             var nextErrorSignals = new double[layer.Neurons[0].Weights.Length];
             var deltas = new double[layer.Neurons.Length];
 
-            // Wir brauchen die Inputs für diesen Layer (entweder Netzwerk-Inputs oder Output vom Vorlayer)
             var layerInputs = (i == 0) ? inputs : _layers[i - 1].Neurons.Select(n => n.LastOutput).ToArray();
 
             for (var j = 0; j < layer.Neurons.Length; j++)
@@ -78,13 +73,10 @@ public class SimpleNetwork
     
     public SimpleNetwork Clone()
     {
-        // Wir nutzen die Topology des aktuellen Netzes
         var topology = new int[_layers.Length + 1];
-    
-        // Eingänge des ersten Layers
+
         topology[0] = _layers[0].Neurons[0].Weights.Length;
-    
-        // Ausgänge jedes Layers
+
         for (var i = 0; i < _layers.Length; i++)
         {
             topology[i + 1] = _layers[i].Neurons.Length;
@@ -92,7 +84,6 @@ public class SimpleNetwork
 
         var clone = new SimpleNetwork(topology);
 
-        // Jetzt kopieren wir die exakten Gewichte und Biases
         for (var l = 0; l < _layers.Length; l++)
         {
             for (var n = 0; n < _layers[l].Neurons.Length; n++)
@@ -116,17 +107,14 @@ public class SimpleNetwork
         {
             foreach (var neuron in layer.Neurons)
             {
-                // Gewichte mutieren
                 for (var i = 0; i < neuron.Weights.Length; i++)
                 {
                     if (rng.NextDouble() < rate)
                     {
-                        // Kleiner Zufallswert wird addiert
                         neuron.Weights[i] += (rng.NextDouble() * 2 - 1) * amount;
                     }
                 }
-            
-                // Bias ebenfalls mutieren
+
                 if (rng.NextDouble() < rate)
                 {
                     neuron.Bias += (rng.NextDouble() * 2 - 1) * amount;
