@@ -17,7 +17,7 @@ public class JumperGame
     {
         if (IsDead) return;
 
-        // Sprung-Logik
+        // 1. Sprung-Logik
         if (wantToJump && PlayerY <= 0.01) _jumpVelocity = 0.8;
     
         PlayerY += _jumpVelocity;
@@ -25,23 +25,25 @@ public class JumperGame
 
         if (PlayerY < 0) { PlayerY = 0; _jumpVelocity = 0; }
 
-        // Kollision VOR dem Bewegen berechnen
+        // 2. Bewegung und "Tunneling"-Check
         double oldX = ObstacleX;
         ObstacleX -= Speed;
 
-        // Prüfen, ob der Block den kritischen Bereich (0.1 bis 0.0) gekreuzt hat
-        bool blockPassedPlayer = oldX >= 0.1 && ObstacleX <= 0.0;
+        // Wir prüfen, ob der Block in diesem Frame von rechts nach links 
+        // die Position des Spielers (ca. 0.05) passiert hat.
+        bool passedPlayer = oldX >= 0.05 && ObstacleX <= 0.05;
 
-        if (blockPassedPlayer && PlayerY < 0.2) 
+        if (passedPlayer && PlayerY < 0.2) 
         {
-            IsDead = true;
+            IsDead = true; // Jetzt erwischt ihn der Block garantiert!
         }
         else if (ObstacleX < -0.1) 
         {
+            // Reset des Blocks
             ObstacleX = 1.0; 
             Score++;
-            // Deine neue Speed-Range
-            Speed = 0.01 + (_rng.NextDouble() * 0.09); 
+            // Geschwindigkeit neu würfeln
+            Speed = 0.01 + (_rng.NextDouble() * 0.5);
         }
     }
 }
