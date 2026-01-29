@@ -3,8 +3,8 @@
 
 Console.WriteLine("--- KI Jumper Training ---");
 
-const int populationSize = 1000;
-const int generations = 200;
+const int populationSize = 10;
+const int generations = 2000;
 
 var population = new List<SimpleNetwork>();
 for (var i = 0; i < populationSize; i++)
