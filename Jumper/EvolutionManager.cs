@@ -2,28 +2,33 @@ namespace Jumper;
 
 public static class EvolutionManager
 {
+
     public static double Evaluate(SimpleNetwork net)
     {
-        var game = new JumperGame();
-        var frames = 0;
-        double airTimePenalty = 0;
+        double totalFitness = 0;
+        int runs = 3; // 3 Testläufe für mehr Stabilität
 
-        while (!game.IsDead && frames < 2000)
+        for (int i = 0; i < runs; i++)
         {
-            var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed / 0.5]);
-            bool wantToJump = output[0] > 0.5;
+            var game = new JumperGame();
+            var frames = 0;
+            double airTimePenalty = 0;
 
-            // Bestrafung, wenn die KI springt, obwohl das Hindernis noch weit weg ist
-            if (game.PlayerY > 0.01 && game.ObstacleX > 0.6) 
+            while (!game.IsDead && frames < 2000)
             {
-                airTimePenalty += 0.5; 
-            }
+                // PlayerY / 3.0 für bessere Skalierung hinzugefügt
+                var output = net.Predict([game.ObstacleX, game.PlayerY / 3.0, game.Speed / 0.5]);
+                bool wantToJump = output[0] > 0.5;
 
-            game.Update(wantToJump);
-            frames++;
+                if (game.PlayerY > 0.01 && game.ObstacleX > 0.6) airTimePenalty += 0.5; 
+
+                game.Update(wantToJump);
+                frames++;
+            }
+            totalFitness += (game.Score * 500) + frames - airTimePenalty;
         }
 
-        // Die Strafe wird vom Gesamtwert abgezogen
-        return (game.Score * 500) + frames - airTimePenalty;
+        return totalFitness / runs;
     }
+    
 }
