@@ -3,13 +3,13 @@
 
 Console.WriteLine("--- KI Jumper Training ---");
 
-const int populationSize = 10;
+const int populationSize = 100;
 const int generations = 200;
 
 var population = new List<SimpleNetwork>();
 for (var i = 0; i < populationSize; i++)
 {
-    population.Add(new SimpleNetwork([2, 32,32, 1]));}
+    population.Add(new SimpleNetwork([3, 32,32,32, 1]));}
 
 for (int gen = 0; gen < generations; gen++)
 {
@@ -56,7 +56,7 @@ void PlayVisual(SimpleNetwork net)
     {
         Console.Clear();
 
-        var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed]);
+        var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed/0.5]);
         bool wantToJump = output[0] > 0.5;
         Console.WriteLine($"\nScore: {game.Score} | Input-Wert: {output[0]:F4} | Drückt: {(wantToJump ? "JUMP!" : "     ")}");
         game.Update(wantToJump);
