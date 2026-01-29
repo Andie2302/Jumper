@@ -16,7 +16,7 @@ public class SimpleNetwork
         {
             IActivationFunction func = (i == _layers.Length - 1) 
                 ? new SigmoidFunction() 
-                : new LeakyReluFunction();
+                : new ReluFunction();
             
             _layers[i] = new Layer(topology[i + 1], topology[i], func, rng);
         }
