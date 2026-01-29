@@ -10,7 +10,7 @@ public class EvolutionManager
 
         while (!game.IsDead && frames < 2000)
         {
-            var output = net.Predict([game.ObstacleX, game.PlayerY]);
+            var output = net.Predict([game.ObstacleX, game.PlayerY, game.Speed / 0.5]);
             bool wantToJump = output[0] > 0.5;
 
             // Bestrafung, wenn die KI springt, obwohl das Hindernis noch weit weg ist
